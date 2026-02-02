@@ -1,0 +1,5 @@
+Over 18 years, I've led AI implementation, platform integrations, and support operations for B2B SaaS and fintech companies. I design production AI solutions, build the technical infrastructure to support them, and measure their impact. My sweet spot is translating messy operational problems into clean technical solutions.
+
+I work at the intersection of Support, Product, and Engineering. I'm comfortable debugging APIs, designing workflows, and presenting metrics to CEOs. I build things that scale, systems that work, and teams that deliver.
+
+Let's talk if you're tackling hard technical problems in customer experience.
