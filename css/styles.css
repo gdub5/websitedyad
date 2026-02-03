@@ -234,7 +234,7 @@ p:last-child {
 }
 
 .btn-secondary {
-  background-color: transparent;
+  background-color: var(--color-white);
   color: var(--color-secondary);
   border: 2px solid var(--color-secondary);
 }
@@ -387,10 +387,15 @@ p:last-child {
 .hero {
   padding-top: calc(var(--header-height) + var(--space-16));
   padding-bottom: var(--space-20);
-  background: linear-gradient(135deg, var(--color-light-gray) 0%, var(--color-white) 100%);
+  background-color: var(--color-light-gray);
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(239, 99, 7, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(40, 154, 214, 0.06) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3C!-- Hexagonal grid of dots --%3E%3Ccircle cx='20' cy='20' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='60' cy='20' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='100' cy='20' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='140' cy='20' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='180' cy='20' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='40' cy='55' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='80' cy='55' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='120' cy='55' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='160' cy='55' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='20' cy='90' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='60' cy='90' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='100' cy='90' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='140' cy='90' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='180' cy='90' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='40' cy='125' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='80' cy='125' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='120' cy='125' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='160' cy='125' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='20' cy='160' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='60' cy='160' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='100' cy='160' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3Ccircle cx='140' cy='160' r='3' fill='%23289ad6' fill-opacity='0.1'/%3E%3Ccircle cx='180' cy='160' r='4' fill='%23ef6307' fill-opacity='0.12'/%3E%3C!-- Connecting lines - hexagonal pattern with random cross connections --%3E%3Cpath d='M20 20 L60 20 M60 20 L100 20 M100 20 L140 20 M140 20 L180 20 M20 20 L40 55 M60 20 L40 55 M60 20 L80 55 M100 20 L80 55 M100 20 L120 55 M140 20 L120 55 M140 20 L160 55 M180 20 L160 55 M40 55 L80 55 M80 55 L120 55 M120 55 L160 55 M40 55 L20 90 M40 55 L60 90 M80 55 L60 90 M80 55 L100 90 M120 55 L100 90 M120 55 L140 90 M160 55 L140 90 M160 55 L180 90 M20 90 L60 90 M60 90 L100 90 M100 90 L140 90 M140 90 L180 90 M20 90 L40 125 M60 90 L40 125 M60 90 L80 125 M100 90 L80 125 M100 90 L120 125 M140 90 L120 125 M140 90 L160 125 M180 90 L160 125 M40 125 L80 125 M80 125 L120 125 M120 125 L160 125 M40 125 L20 160 M40 125 L60 160 M80 125 L60 160 M80 125 L100 160 M120 125 L100 160 M120 125 L140 160 M160 125 L140 160 M160 125 L180 160 M20 160 L60 160 M60 160 L100 160 M100 160 L140 160 M140 160 L180 160 M20 20 L80 55 M100 20 L40 55 M140 20 L80 55 M60 90 L120 55 M100 90 L160 55 M20 90 L80 125 M100 90 L40 125 M140 90 L80 125 M60 160 L120 125 M100 160 L160 125' stroke='%23374151' stroke-opacity='0.06' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
   min-height: 80vh;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .hero-content {
@@ -596,6 +601,8 @@ p:last-child {
   box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
   border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card:hover {
@@ -657,6 +664,7 @@ p:last-child {
   color: var(--color-dark-gray);
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-light-gray);
+  margin-top: auto;
 }
 
 .service-ideal strong {
@@ -803,6 +811,13 @@ p:last-child {
 .about-text p {
   color: var(--color-dark-gray);
   line-height: 1.8;
+}
+
+.about-signature {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-black);
+  margin-top: var(--space-4);
 }
 
 .about-cta {
