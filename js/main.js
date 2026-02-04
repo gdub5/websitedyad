@@ -262,11 +262,8 @@
         return false;
       }
 
-      // Form is valid - for now, show an alert since form service isn't configured
-      // When you set up Formspree or another service, remove this block
-      // and update the form's action attribute
-      e.preventDefault();
-      alert('Form submission is not yet configured. Please email greg@dyad.cx directly.');
+      // Form is valid - submit to Formspree
+      // (form submits naturally, no preventDefault needed)
     });
   }
 
