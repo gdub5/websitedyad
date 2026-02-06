@@ -416,11 +416,15 @@ p:last-child {
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 1000px;
   background-color: rgba(255, 255, 255, 0.95);
   padding: var(--space-8);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
 }
 
 .hero h1 {
@@ -442,13 +446,46 @@ p:last-child {
   flex-wrap: wrap;
 }
 
+.hero-text {
+  flex: 1;
+}
+
+.hero-graphic {
+  flex-shrink: 0;
+  width: 240px;
+  height: 240px;
+}
+
+.hero-graphic img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 @media (min-width: 768px) {
+  .hero-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
   .hero h1 {
     font-size: var(--font-size-5xl);
   }
 
   .hero-subtitle {
     font-size: var(--font-size-xl);
+  }
+
+  .hero-graphic {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-graphic {
+    width: 400px;
+    height: 400px;
   }
 }
 
@@ -980,6 +1017,35 @@ p:last-child {
   justify-content: center;
   color: var(--color-gray);
   font-style: italic;
+}
+
+.photo-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-light-gray);
+  margin: 0;
+}
+
+.photo-card img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-card figcaption {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-dark-gray);
+  text-align: center;
+  background-color: var(--color-white);
+}
+
+@media (min-width: 768px) {
+  .photo-card-featured {
+    grid-column: span 2;
+  }
 }
 
 /* Affiliates Section */
