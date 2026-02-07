@@ -513,19 +513,20 @@ p:last-child {
 
 .problem-point-icon {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-primary);
+  background-color: var(--color-white);
   border-radius: var(--radius-lg);
-  color: var(--color-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 10px;
 }
 
 .problem-point-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 52px;
+  height: 52px;
 }
 
 .problem-point h3 {
@@ -542,8 +543,10 @@ p:last-child {
   padding: var(--space-6);
   background-color: var(--color-white);
   border-left: 4px solid var(--color-primary);
-  font-size: var(--font-size-lg);
-  font-weight: 500;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-dark);
+  max-width: 720px;
 }
 
 @media (min-width: 768px) {
@@ -585,19 +588,20 @@ p:last-child {
 
 .solution-point-icon {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-secondary);
+  background-color: var(--color-white);
   border-radius: var(--radius-lg);
-  color: var(--color-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 10px;
 }
 
 .solution-point-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 52px;
+  height: 52px;
 }
 
 .solution-point h3 {
@@ -611,9 +615,13 @@ p:last-child {
 
 .solution-closing {
   margin-top: var(--space-12);
-  font-size: var(--font-size-lg);
-  font-style: italic;
-  color: var(--color-gray);
+  padding: var(--space-6);
+  background-color: var(--color-white);
+  border-left: 4px solid var(--color-primary);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-dark);
+  max-width: 720px;
 }
 
 .solution-cta {
@@ -658,7 +666,7 @@ p:last-child {
   padding: var(--space-8);
   box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
-  border: 1px solid transparent;
+  border: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
 }
@@ -676,28 +684,29 @@ p:last-child {
 }
 
 .service-icon {
-  width: 56px;
-  height: 56px;
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-4);
+  background-color: var(--color-light-gray);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 10px;
 }
 
 .service-icon svg {
-  width: 28px;
-  height: 28px;
+  width: 52px;
+  height: 52px;
 }
 
 .service-icon-orange {
-  background-color: rgba(239, 99, 7, 0.1);
-  color: var(--color-primary);
+  background-color: var(--color-light-gray);
 }
 
 .service-icon-blue {
-  background-color: rgba(40, 154, 214, 0.1);
-  color: var(--color-secondary);
+  background-color: var(--color-light-gray);
 }
 
 .service-card h3 {
@@ -796,6 +805,7 @@ p:last-child {
 .stats-row {
   display: grid;
   gap: var(--space-8);
+  margin-top: var(--space-12);
   margin-bottom: var(--space-16);
 }
 
