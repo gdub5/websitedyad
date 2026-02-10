@@ -143,16 +143,33 @@
     (function() {
       'use strict';
 
-      // Parse URL parameters with multiple fallback names
-      function getURLParams() {
+      // Parse Zoom URL parameters
+      function getZoomParams() {
         const params = new URLSearchParams(window.location.search);
         return {
-          name: params.get('invitee_name') || params.get('fullName') || params.get('name'),
-          email: params.get('invitee_email') || params.get('email'),
-          startTime: params.get('start_time') || params.get('startDate') || params.get('date'),
-          duration: params.get('duration'),
-          timezone: params.get('timezone') || params.get('tz')
+          name: params.get('bookerDisplayName'),
+          email: params.get('bookerEmail'),
+          start: params.get('start'),
+          end: params.get('end'),
+          timeZone: params.get('timeZone'),
+          summary: params.get('summary'),
+          assignedTo: params.get('assignedTo')
         };
+      }
+
+      // Calculate duration in minutes from start and end times
+      function calculateDuration(startISO, endISO) {
+        try {
+          const start = new Date(startISO);
+          const end = new Date(endISO);
+          if (isNaN(start.getTime()) || isNaN(end.getTime())) return null;
+
+          const durationMs = end - start;
+          const durationMinutes = Math.round(durationMs / (1000 * 60));
+          return durationMinutes;
+        } catch (e) {
+          return null;
+        }
       }
 
       // Format date/time for display
@@ -190,30 +207,34 @@
 
       // Update page on load
       document.addEventListener('DOMContentLoaded', function() {
-        const params = getURLParams();
+        const params = getZoomParams();
         const heading = document.getElementById('thank-you-heading');
         const meetingDetails = document.getElementById('meeting-details');
 
         // If we have name or start time, personalize the page
-        if (params.name || params.startTime) {
-          // Update heading
+        if (params.name || params.start) {
+          // Update heading with booker's name
           if (params.name && heading) {
             heading.textContent = 'Thanks, ' + params.name + '!';
           }
 
           // Populate and show meeting details
-          if (params.startTime && meetingDetails) {
+          if (params.start && meetingDetails) {
             const dateTimeEl = document.getElementById('meeting-datetime');
             const durationEl = document.getElementById('meeting-duration');
 
-            const formattedDate = formatDateTime(params.startTime, params.timezone);
+            const formattedDate = formatDateTime(params.start, params.timeZone);
             if (formattedDate && dateTimeEl) {
               dateTimeEl.textContent = formattedDate;
               meetingDetails.style.display = 'block';
             }
 
-            if (params.duration && durationEl) {
-              durationEl.textContent = params.duration + ' minutes';
+            // Calculate and display duration
+            if (params.end && durationEl) {
+              const duration = calculateDuration(params.start, params.end);
+              if (duration) {
+                durationEl.textContent = duration + ' minutes';
+              }
             }
           }
         }
