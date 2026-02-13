@@ -990,7 +990,7 @@ p:last-child {
 @media (min-width: 768px) {
   .about-hero {
     grid-template-columns: 1fr auto;
-    align-items: start;
+    align-items: center;
   }
 
   .about-intro h1 {
