@@ -70,49 +70,6 @@
   .total-item .number { font-size: 22px; font-weight: 700; color: #0D2A4B; }
   .total-item .label { font-size: 11px; color: #595959; }
 
-  /* Email preview styles */
-  .email-preview {
-    margin-top: 10px;
-    border: 1px solid #E4ECEF;
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .email-preview-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    background: #F8FAFB;
-    cursor: pointer;
-    user-select: none;
-    font-size: 12px;
-    font-weight: 600;
-    color: #0D2A4B;
-    border: none;
-    width: 100%;
-    text-align: left;
-  }
-  .email-preview-toggle:hover { background: #EEF2F5; }
-  .email-preview-toggle .chevron { transition: transform 0.2s; font-size: 14px; }
-  .email-preview-toggle.open .chevron { transform: rotate(90deg); }
-  .email-body {
-    display: none;
-    padding: 20px;
-    background: white;
-    border-top: 1px solid #E4ECEF;
-    font-size: 13px;
-    line-height: 1.7;
-    color: #333;
-  }
-  .email-body.show { display: block; }
-  .email-body .email-field { font-size: 11px; color: #595959; margin-bottom: 2px; }
-  .email-body .email-field strong { color: #0D2A4B; }
-  .email-body .email-subject { font-size: 13px; font-weight: 700; color: #0D2A4B; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #E4ECEF; }
-  .email-body .email-content { white-space: pre-wrap; font-family: 'Segoe UI', system-ui, sans-serif; }
-  .email-body .email-content .serve-smarter-highlight { background: #FFF0F3; color: #EF2249; font-weight: 600; padding: 1px 4px; border-radius: 3px; }
-  .email-body ul { margin: 8px 0; padding-left: 20px; }
-  .email-body li { margin: 4px 0; }
-
   .parallel-row { display: flex; gap: 12px; }
   .parallel-row .card { flex: 1; margin-bottom: 0; }
 
@@ -124,25 +81,6 @@
   .summary-table tr:nth-child(even) td { background: #F8FAFB; }
   .summary-table .phase-label { font-weight: 700; color: #0D2A4B; }
   .summary-table .total-row td { background: #0D2A4B; color: white; font-weight: 700; }
-
-  /* Toolbar */
-  .toolbar { position: sticky; top: 0; z-index: 100; background: white; border-bottom: 2px solid #E4ECEF; padding: 10px 20px; display: flex; align-items: center; gap: 12px; margin: -24px -24px 24px -24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); flex-wrap: wrap; }
-  .toolbar-btn { padding: 8px 16px; border-radius: 6px; border: 1px solid #E4ECEF; background: white; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; }
-  .toolbar-btn:hover { background: #F8FAFB; border-color: #0D2A4B; }
-  .toolbar-btn.primary { background: #0D2A4B; color: white; border-color: #0D2A4B; }
-  .toolbar-btn.primary:hover { background: #1a3d66; }
-  .toolbar-btn.active { background: #EF2249; color: white; border-color: #EF2249; }
-  .toolbar-label { font-size: 12px; color: #595959; margin-left: auto; }
-  .toolbar-label.editing { color: #EF2249; font-weight: 600; }
-
-  /* Toolbar hidden by default — add ?edit to URL to show */
-  .toolbar { display: none; }
-  .toolbar.visible { display: flex; }
-
-  /* Editable states */
-  .editable-active .email-content,
-  .editable-active .card-desc,
-  .editable-active .card-meta { outline: 1px dashed #40CCF2; outline-offset: 2px; border-radius: 4px; padding: 4px; }
   .editable-active .email-content:focus,
   .editable-active .card-desc:focus,
   .editable-active .card-meta:focus { outline: 2px solid #40CCF2; background: #F8FDFF; }
@@ -151,120 +89,12 @@
     .date-col { width: 70px; }
     .parallel-row { flex-direction: column; }
     .card-title { flex-direction: column; align-items: flex-start; gap: 4px; }
-    .toolbar { padding: 8px 12px; }
+
   }
 </style>
-<script>
-function toggleEmail(id) {
-  const body = document.getElementById(id);
-  const toggle = body.previousElementSibling;
-  body.classList.toggle('show');
-  toggle.classList.toggle('open');
-}
 
-function toggleAllEmails() {
-  const bodies = document.querySelectorAll('.email-body');
-  const allOpen = Array.from(bodies).every(b => b.classList.contains('show'));
-  bodies.forEach(b => {
-    if (allOpen) { b.classList.remove('show'); b.previousElementSibling.classList.remove('open'); }
-    else { b.classList.add('show'); b.previousElementSibling.classList.add('open'); }
-  });
-  const btn = document.getElementById('expandBtn');
-  btn.textContent = allOpen ? '📖 Expand All' : '📕 Collapse All';
-}
-
-let editMode = false;
-function toggleEdit() {
-  editMode = !editMode;
-  document.body.classList.toggle('editable-active', editMode);
-  const editables = document.querySelectorAll('.email-content, .card-desc, .card-meta');
-  editables.forEach(el => {
-    el.contentEditable = editMode ? 'true' : 'false';
-  });
-  const btn = document.getElementById('editBtn');
-  btn.textContent = editMode ? '🔒 Lock Editing' : '✏️ Edit Copy';
-  btn.classList.toggle('active', editMode);
-  const label = document.getElementById('editLabel');
-  label.textContent = editMode ? 'Editing enabled — click any copy to change it' : '';
-  label.classList.toggle('editing', editMode);
-
-  // Expand all when entering edit mode
-  if (editMode) {
-    document.querySelectorAll('.email-body').forEach(b => {
-      b.classList.add('show');
-      b.previousElementSibling.classList.add('open');
-    });
-    document.getElementById('expandBtn').textContent = '📕 Collapse All';
-  }
-}
-
-function downloadMarkdown() {
-  const md = [];
-  md.push('# RLC 2026 — All Campaign Copy (Exported)\n');
-  md.push('> Exported from PEP Campaign Flow on ' + new Date().toLocaleDateString() + '\n');
-  md.push('---\n');
-
-  document.querySelectorAll('.phase').forEach(phase => {
-    const phaseTitle = phase.querySelector('.phase-header span:first-child');
-    if (phaseTitle) md.push('\n# ' + phaseTitle.textContent.trim() + '\n\n---\n');
-
-    phase.querySelectorAll('.card').forEach(card => {
-      const title = card.querySelector('.card-title');
-      if (!title) return;
-      const titleText = title.textContent.replace(/[▶▼]/g, '').trim();
-      md.push('\n## ' + titleText + '\n');
-
-      const meta = card.querySelector('.card-meta');
-      if (meta) md.push('\n**' + meta.textContent.trim() + '**\n');
-
-      const desc = card.querySelector('.card-desc');
-      if (desc) md.push('\n' + desc.textContent.trim() + '\n');
-
-      // Subject lines
-      card.querySelectorAll('.email-field').forEach(field => {
-        md.push('\n**' + field.textContent.trim() + '**\n');
-      });
-
-      // Email/post body
-      const content = card.querySelector('.email-content');
-      if (content) {
-        let text = content.innerText || content.textContent;
-        // Clean up option headers
-        text = text.replace(/Option A — Standard/g, '### Option A — Standard');
-        text = text.replace(/Option B — Engaging/g, '### Option B — Engaging');
-        text = text.replace(/Option C — Funny/g, '### Option C — Funny');
-        md.push('\n' + text.trim() + '\n');
-      }
-
-      md.push('\n---\n');
-    });
-  });
-
-  const blob = new Blob([md.join('\n')], { type: 'text/markdown' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'rlc-2026-campaign-copy-edited.md';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-// Show toolbar only when ?edit is in the URL
-if (window.location.search.includes('edit')) {
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.toolbar').classList.add('visible');
-  });
-}
-</script>
 </head>
 <body>
-
-<div class="toolbar">
-  <button class="toolbar-btn" id="expandBtn" onclick="toggleAllEmails()">📖 Expand All</button>
-  <button class="toolbar-btn" id="editBtn" onclick="toggleEdit()">✏️ Edit Copy</button>
-  <button class="toolbar-btn primary" onclick="downloadMarkdown()">⬇ Download Edits (.md)</button>
-  <span class="toolbar-label" id="editLabel"></span>
-</div>
-
 <div class="header">
   <h1>RLC 2026 — PEP Campaign Flow</h1>
   <div class="subtitle">Integrated Email + LinkedIn | <span class="serve-smarter">Serve Smarter</span> through-line | March 24 – April 25</div>
@@ -305,22 +135,6 @@ if (window.location.search.includes('edit')) {
             <div class="metric"><strong>9.4%</strong> CTR</div>
             <div class="metric"><strong>110</strong> clicks</div>
           </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('linkedin1')">View Post Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="linkedin1">
-              <div class="email-content">We're heading to RLC 2026 ☀️ And this year, we're bringing something new with us 👀
-
-If you're heading to Phoenix, you'll be the first to see it.
-
-RLC 2025 was one for the books and we can't wait to run it back.
-
-📍 April 19–22 | Phoenix, AZ
-
-We've got a full lineup of ways to connect while we're there. Think golf simulators, dinners, happy hours… You name it.
-
-Check out what we have planned + save your spot → https://bit.ly/4sYjUw5</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -336,27 +150,6 @@ Check out what we have planned + save your spot → https://bit.ly/4sYjUw5</div>
           <div class="card-title">Customer Email</div>
           <div class="card-meta">Qu Marketing → Customer base · 8:00 AM ET · Single send, no follow-up</div>
           <div class="card-metrics"><div class="metric"><strong>5-7%</strong> click rate</div></div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('cust1')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="cust1">
-              <div class="email-field"><strong>Subject:</strong> Qu at RLC 2026 — Come See What's New at Booth #337</div>
-              <div class="email-content">
-Hi [First Name],
-
-Qu is heading to the Restaurant Leadership Conference in Phoenix April 19-22, and we'd love to connect with you while we're there.
-
-We're at Booth #337 this year, and we're bringing something worth seeing. Our team will be demoing what <span class="serve-smarter-highlight">Serve Smarter</span> looks like in a live kitchen, from computer vision on the makeline to intelligent kitchen scoring that changes how operators think about throughput and accuracy.
-
-If you're attending RLC, stop by and say hello. We can walk you through what's new and talk about what's coming next.
-
-Pick a time and we'll save a spot for you: https://go.qubeyond.com/meet-us-at-rlc-2026
-
-See you in Phoenix.
-
-Warm Regards,
-[TAM Name]</div>
-            </div>
-          </div>
         </div>
 
         <!-- TAM Send 1 -->
@@ -367,28 +160,6 @@ Warm Regards,
             <div class="metric"><strong>20-25%</strong> open</div>
             <div class="metric"><strong>3.5-4.5%</strong> click</div>
             <div class="metric"><strong>8-10</strong> clicks</div>
-          </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('tam1')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="tam1">
-              <div class="email-field"><strong>Subject A:</strong> Heading to RLC? Let's Connect</div>
-              <div class="email-field"><strong>Subject B:</strong> What Qu Is Bringing to RLC This Year</div>
-              <div class="email-content">
-Hi [First Name],
-
-I'll be at the Restaurant Leadership Conference in Phoenix April 19-22 and wanted to see if you're planning to attend.
-
-We've been building toward something at Qu, and RLC is where we're showing it. At Booth #337 we're running live demos of what <span class="serve-smarter-highlight">Serve Smarter</span> actually looks like on the line: computer vision checking every build in real time, a Kitchen Intelligence Score that changes how operators think about throughput, and edge AI capabilities that are getting real traction with brands your size.
-
-We've also got a full week planned beyond the booth. Longest Drive contest Monday on the course, private dinners, and a Happy Hour Tuesday evening at the Tia Carmen fire pits you won't want to skip.
-
-One more thing: we just published our State of Digital report. 600 restaurant brands told us where the industry is heading. Worth a read before Phoenix: [SOD Report Link]
-
-If you're going to be there, I'd love to set aside 15 minutes to catch up — at the booth or over coffee. Pick a time that works and I'll block it: https://go.qubeyond.com/meet-us-at-rlc-2026
-
-Warm Regards,
-Sean Brennan</div>
-            </div>
           </div>
         </div>
 
@@ -410,68 +181,11 @@ Sean Brennan</div>
             <div class="card-title">LinkedIn Post 2: "Meet the Qu Crew"</div>
             <div class="card-meta">Corporate account · Tag all 8 attendees</div>
             <div class="card-metrics"><div class="metric"><strong>6-9%</strong> projected CTR</div></div>
-            <div class="email-preview">
-              <button class="email-preview-toggle" onclick="toggleEmail('linkedin2')">View Post Copy <span class="chevron">▶</span></button>
-              <div class="email-body" id="linkedin2">
-                <div class="email-content">Quick headcount: Who's representing Qu at RLC this year?
-
-Amir Hudda.
-Niko Papademetriou.
-Steve Melamed.
-Matt Huey.
-Jen Kern.
-Sean Brennan.
-Eric Verduci.
-Darien Bates.
-
-We're bringing the whole crew because we have something worth showing, a longest drive contest worth winning, dinners worth attending, and a happy hour Tuesday night that's going to make every other after-party feel like a mandatory team lunch.
-
-Booth #337. You got questions. We have <span class="serve-smarter-highlight">Serve Smarter</span> answers.
-
-That's your Qu 👉 https://bit.ly/4sYjUw5</div>
-              </div>
-            </div>
           </div>
           <div class="card card-linkedin-sales">
             <div class="card-title">Sales Post 1: Pre-RLC Hype</div>
             <div class="card-meta">Individual AE accounts · Post within 2hr of corporate · Pick one variant</div>
             <div class="card-desc">AE not attending → "See what <span style="color:#EF2249;font-weight:600;">Serve Smarter</span> actually looks like."</div>
-            <div class="email-preview">
-              <button class="email-preview-toggle" onclick="toggleEmail('sales1')">View Post Options <span class="chevron">▶</span></button>
-              <div class="email-body" id="sales1">
-                <div class="email-content"><strong style="color:#EF2249;">Option A — Standard</strong>
-
-I won't be in Phoenix for RLC this year, but the Qu team will be, and they're bringing something to Booth #337 that I've seen internally and think the industry needs to see.
-
-Live demos of AI running in real kitchens. Computer vision checking makeline accuracy. Intelligence scoring that changes how operators think about throughput. This isn't a roadmap pitch. It's production tech.
-
-If you're heading to RLC April 19-22, go find Booth #337. The Qu crew is there all week and they're ready to show you what <span class="serve-smarter-highlight">Serve Smarter</span> actually looks like.
-
-That's your Qu: [CTA LINK]
-
-<hr style="border:none;border-top:1px dashed #ccc;margin:16px 0;">
-<strong style="color:#EF2249;">Option B — Engaging</strong>
-
-I'm going to be honest. I'm a little jealous of anyone heading to RLC this year.
-
-The Qu team is in Phoenix April 19-22 with live demos at Booth #337, and what they're showing is the most exciting thing I've seen in restaurant tech in a long time. AI that runs on the kitchen line, not in a pitch deck. Computer vision watching every build in real time. It's live, it's in production, and it's the kind of thing you need to see to believe.
-
-If you're at RLC, do yourself a favor and stop by Booth #337. Tell them I sent you. They won't give you anything extra for that, but it'll make me feel important.
-
-That's your Qu: [CTA LINK]
-
-<hr style="border:none;border-top:1px dashed #ccc;margin:16px 0;">
-<strong style="color:#EF2249;">Option C — Funny</strong>
-
-I'm not at RLC this year and I'm handling it fine. Completely fine. Not at all refreshing the team Slack every four minutes to see booth photos.
-
-Here's what I do know: Qu is at Booth #337 with live demos that made me say "wait, that's real?" during an internal preview. Computer vision on a makeline. AI that actually does things instead of just promising to do things. The whole <span class="serve-smarter-highlight">Serve Smarter</span> lineup.
-
-If you're in Phoenix, go to Booth #337 before the line gets ridiculous.
-
-That's your Qu: [CTA LINK]</div>
-              </div>
-            </div>
           </div>
         </div>
         <div class="sync-banner">🔗 Multi-channel sync: Prospects see Qu on LinkedIn same week they receive P1 email</div>
@@ -511,23 +225,6 @@ That's your Qu: [CTA LINK]</div>
             <div class="metric"><strong>2-3%</strong> click (2025: 0%)</div>
             <div class="metric"><strong>1-2</strong> clicks</div>
           </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('tam2ent')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="tam2ent">
-              <div class="email-field"><strong>Subject:</strong> RLC Next Week — Worth 15 Minutes</div>
-              <div class="email-content">
-Hi [First Name],
-
-RLC is next week and I wanted to reach out before things get hectic. We're at Booth #337, and this year we're focused on showing what <span class="serve-smarter-highlight">Serve Smarter</span> looks like at enterprise scale, not just dashboards and reports, but intelligence that's actively changing how kitchens run in real time.
-
-We've got computer vision running full makeline accuracy checks at Garbanzos, a Kitchen Intelligence Score in production, and edge AI capabilities built for brands operating at 250+ locations.
-
-I'd like to find 15 minutes to show you what <span class="serve-smarter-highlight">Serve Smarter</span> means for a brand your size. If you're open to it, let me know a time that works and I'll make it happen.
-
-Warm Regards,
--Tom</div>
-            </div>
-          </div>
         </div>
 
         <!-- MM version -->
@@ -538,23 +235,6 @@ Warm Regards,
             <div class="metric"><strong>25-28%</strong> open</div>
             <div class="metric"><strong>4-5%</strong> click</div>
             <div class="metric"><strong>6-7</strong> clicks</div>
-          </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('tam2mm')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="tam2mm">
-              <div class="email-field"><strong>Subject:</strong> RLC Next Week — Let's Catch Up at Booth #337</div>
-              <div class="email-content">
-Hi [First Name],
-
-Quick note before RLC next week. I'll be in Phoenix with the Qu team April 19-22, and wanted to make sure we connect if you're attending.
-
-We're demoing what <span class="serve-smarter-highlight">Serve Smarter</span> looks like for mid-market brands at Booth #337, specifically kitchen intelligence, forecast-driven prep, and AI tools that don't require a massive IT lift to deploy. Worth seeing in person.
-
-If you've got 15 minutes on Monday or Tuesday, let's set something up. Happy to meet at the booth or grab coffee nearby.
-
-Warm Regards,
--Sean</div>
-            </div>
           </div>
         </div>
 
@@ -578,63 +258,11 @@ Warm Regards,
             <div class="card-title">LinkedIn Post 3: "Week-Of Urgency"</div>
             <div class="card-meta">Corporate account</div>
             <div class="card-metrics"><div class="metric"><strong>5-8%</strong> projected CTR</div></div>
-            <div class="email-preview">
-              <button class="email-preview-toggle" onclick="toggleEmail('linkedin3')">View Post Copy <span class="chevron">▶</span></button>
-              <div class="email-body" id="linkedin3">
-                <div class="email-content">This is the week. RLC 2026. Phoenix. And Qu brought everything.
-
-Live demos at Booth #337 that show <span class="serve-smarter-highlight">Serve Smarter</span> delivering for your customers. Private dinners with operators who are doing it. And a Tuesday happy hour at the fire pits that's going to be the highlight of the week.
-
-We came to change how you think about your kitchen.
-
-That's your Qu: https://bit.ly/4sYjUw5</div>
-              </div>
-            </div>
           </div>
           <div class="card card-linkedin-sales">
             <div class="card-title">Sales Post 2: FOMO Builder</div>
             <div class="card-meta">Individual AE accounts · Post within 2hr of corporate · Pick one variant</div>
             <div class="card-desc">Urgency + positioning Qu as the one to watch.</div>
-            <div class="email-preview">
-              <button class="email-preview-toggle" onclick="toggleEmail('sales2')">View Post Options <span class="chevron">▶</span></button>
-              <div class="email-body" id="sales2">
-                <div class="email-content"><strong style="color:#EF2249;">Option A — Standard</strong>
-
-One of the best parts of working at Qu is watching the team gear up for a conference and knowing the people who see what we're building are going to have the same reaction I did.
-
-RLC 2026 is this month. Booth #337. The team is running live demos of our intelligent commerce platform, hosting private dinners, and closing out Tuesday with a happy hour at the Tia Carmen fire pits.
-
-If you're attending RLC, make Booth #337 a priority stop. You'll see why we're not just talking about <span class="serve-smarter-highlight">Serve Smarter</span>.
-
-That's your Qu: [CTA LINK]
-
-<hr style="border:none;border-top:1px dashed #ccc;margin:16px 0;">
-<strong style="color:#EF2249;">Option B — Engaging</strong>
-
-Most booths at conferences show you a slide deck and hand you a pen. Qu is showing live AI in a real kitchen and handing you a reason to rethink your entire tech stack.
-
-I won't be in Phoenix this year, but the Qu team is at Booth #337 April 19-22 with demos that are already running in production. Not "coming Q3." Not "in beta." Running. Right now. In actual restaurants.
-
-If you're heading to RLC, stop by #337. And if you're not going, reach out to me. I'll get you connected to the right person on the team.
-
-That's your Qu: [CTA LINK]
-
-<hr style="border:none;border-top:1px dashed #ccc;margin:16px 0;">
-<strong style="color:#EF2249;">Option C — Funny</strong>
-
-Things I'm missing at RLC this year:
-
-1. Phoenix weather (gorgeous, unfair)
-2. The Tia Carmen fire pits happy hour (cocktails, DJ, lawn games)
-3. Watching people's faces when they see the Qu demo for the first time
-
-That last one is the real loss. The team is at Booth #337 showing live AI on a kitchen line and I already know the reaction is going to be "hold on, back up, show me that again."
-
-If you're at RLC, please go to Booth #337 and film someone's reaction for me.
-
-That's your Qu: [CTA LINK]</div>
-              </div>
-            </div>
           </div>
         </div>
         <div class="sync-banner">🔗 Peak multi-channel moment: Personal email + corporate LinkedIn + sales LinkedIn all on same day</div>
@@ -653,24 +281,6 @@ That's your Qu: [CTA LINK]</div>
             <div class="metric"><strong>30-35%</strong> open</div>
             <div class="metric"><strong>5-7%</strong> click</div>
             <div class="metric"><strong>3-6</strong> clicks</div>
-          </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('tam3')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="tam3">
-              <div class="email-field"><strong>Subject:</strong> Headed to Phoenix — Let's Connect at RLC</div>
-              <div class="email-content">
-Hi [First Name],
-
-I'm headed to Phoenix for RLC and I'd love to connect once you're in.
-
-Booth #337 is where <span class="serve-smarter-highlight">Serve Smarter</span> comes to life. Tell me when you're free and I'll come to you — or just show up and ask for me by name: https://go.qubeyond.com/meet-us-at-rlc-2026
-
-See you there.
-
-Warm Regards,
--Niko
-Co-Founder & SVP Sales, Qu</div>
-            </div>
           </div>
         </div>
       </div>
@@ -732,77 +342,11 @@ Co-Founder & SVP Sales, Qu</div>
               <div class="metric"><strong>3-4%</strong> click</div>
               <div class="metric"><strong>5-6</strong> clicks</div>
             </div>
-            <div class="email-preview">
-              <button class="email-preview-toggle" onclick="toggleEmail('tam4')">View Email Copy <span class="chevron">▶</span></button>
-              <div class="email-body" id="tam4">
-                <div class="email-field"><strong>Subject:</strong> Day 1 at RLC — Booth #337 is Live</div>
-                <div class="email-content">
-Hi [First Name],
-
-Day 1 is underway. We're live at Booth #337 and this is what <span class="serve-smarter-highlight">Serve Smarter</span> looks like on the floor:
-
-• Kitchen Intelligence Score in our redesigned Notify platform
-• Computer vision deployment running full makeline accuracy checks
-• AI inference on edge devices with partners like NomadGo and ConverseNow
-• Next-gen Qu Equip and forecast reporting in EI
-
-Worth a 10-minute walk-through if you get a break between sessions.
-
-Also, a reminder about tomorrow night. We're co-hosting a Happy Hour at the Tia Carmen Fire Pits, Tuesday April 21st from 6:00 to 9:00 PM. DJ, lawn games, signature cocktails, and a raffle. Grab your spot: https://www.fourth.com/rlc-2026-happy-hour
-
-See you on the floor.
-
-Warm Regards,
-[TAM Name]</div>
-              </div>
-            </div>
           </div>
           <div class="card card-linkedin-sales">
             <div class="card-title">Sales Post 3: During-Conference FOMO</div>
             <div class="card-meta">Individual AE accounts · Pick one variant</div>
             <div class="card-desc">Live dispatches from the floor. Real-time booth energy.</div>
-            <div class="email-preview">
-              <button class="email-preview-toggle" onclick="toggleEmail('sales3')">View Post Options <span class="chevron">▶</span></button>
-              <div class="email-body" id="sales3">
-                <div class="email-content"><strong style="color:#EF2249;">Option A — Standard</strong>
-
-The Qu team is live at RLC this week and the updates from Booth #337 are exactly what I expected. People are stopping. People are asking questions. People are seeing what intelligent commerce looks like when it's not a concept, it's a live demo.
-
-If you're at RLC, go find the team at Booth #337. They've got availability on the calendar and what they're showing is worth 10 minutes of your time.
-
-If you're not there, I'm here. Let's set up a call and I'll walk you through what's getting all the attention.
-
-That's your Qu.
-
-<hr style="border:none;border-top:1px dashed #ccc;margin:16px 0;">
-<strong style="color:#EF2249;">Option B — Engaging</strong>
-
-Getting live updates from the Qu team in Phoenix and wishing I was there.
-
-Booth #337 is drawing crowds. People are watching computer vision track a kitchen line build in real time, asking "is this live?" and then going quiet when the answer is yes.
-
-This is what <span class="serve-smarter-highlight">Serve Smarter</span> looks like when it stops being a tagline and starts being the tech running your restaurant.
-
-If you're at RLC, go see it. If you're watching from your desk like me, I'll connect you with the team or walk you through it myself.
-
-That's your Qu.
-
-<hr style="border:none;border-top:1px dashed #ccc;margin:16px 0;">
-<strong style="color:#EF2249;">Option C — Funny</strong>
-
-Live dispatches from my teammates at RLC, paraphrased:
-
-"The booth is packed."
-"Someone just asked if they can install this tomorrow."
-"The booth next to us keeps looking over."
-
-I'm not jealous. I'm thrilled. From my desk. With my coffee. While they're in Phoenix.
-
-If you're at RLC, Booth #337. Go see what all the fuss is about. If you're on your couch like me, DM me and I'll give you the same demo without the sunburn.
-
-That's your Qu.</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -820,29 +364,6 @@ That's your Qu.</div>
             <div class="metric"><strong>35-40%</strong> open</div>
             <div class="metric"><strong>3-4%</strong> click</div>
             <div class="metric"><strong>3-4</strong> clicks</div>
-          </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('hh')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="hh">
-              <div class="email-field"><strong>Subject:</strong> Tonight — Happy Hour at Tia Carmen Fire Pits, 6 PM</div>
-              <div class="email-content">
-Hi [First Name],
-
-Just a reminder that tonight's the night. We're co-hosting a Happy Hour with Fourth and Point B at the Tia Carmen Fire Pits here at the JW Marriott.
-
-• When: Tonight, Tuesday April 21st, 6:00 to 9:00 PM MST
-• Where: Tia Carmen Fire Pits, JW Marriott Desert Ridge
-• What: Signature cocktails, DJ, lawn games, and a raffle with prizes at 6:30, 7:30, and 8:30 PM
-
-No formalities, just a good time with good people after a full day of sessions. Come hang out.
-
-Grab your spot before we run out of room: https://www.fourth.com/rlc-2026-happy-hour
-
-See you tonight.
-
-Warm Regards,
-The Qu Crew</div>
-            </div>
           </div>
         </div>
       </div>
@@ -894,25 +415,6 @@ The Qu Crew</div>
             <div class="metric"><strong>3-5%</strong> click</div>
             <div class="metric"><strong>3-5</strong> clicks</div>
           </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('post1')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="post1">
-              <div class="email-field"><strong>Subject:</strong> Thanks for Joining Us at RLC</div>
-              <div class="email-content">
-Thanks for bringing the good vibes to our happy hour at RLC — we loved hanging out with you.
-
-You saw what <span class="serve-smarter-highlight">Serve Smarter</span> looks like up close. Let's keep the conversation going with a few of our top reads:
-
-• Expanded Smart Kitchen: We launched our press release on Energy and Equipment Intelligence at RLC
-• Report: Top 6 Trends for Fast Casual and QSR Brands in 2026
-• Article: How Edge Computing Will Define the Future of Restaurants
-
-Ready to bring <span class="serve-smarter-highlight">Serve Smarter</span> to your brand? Pick a time and I'll tailor the next conversation to what you saw at the booth.
-
-Yours in tasty food,
-The Qu Crew</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -930,25 +432,6 @@ The Qu Crew</div>
             <div class="metric"><strong>3-4%</strong> click</div>
             <div class="metric"><strong>3-4</strong> clicks</div>
           </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('post2')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="post2">
-              <div class="email-field"><strong>Subject:</strong> Great Connecting at RLC</div>
-              <div class="email-content">
-The Qu Crew had quite a week to remember at RLC, and we're glad you were part of it.
-
-Here's more on what <span class="serve-smarter-highlight">Serve Smarter</span> means for your brand — a few top reads we thought you'd enjoy:
-
-• Expanded Smart Kitchen: We launched our press release on Energy and Equipment Intelligence at RLC
-• Report: Top 6 Trends for Fast Casual and QSR Brands in 2026
-• Article: How Edge Computing Will Define the Future of Restaurants
-
-Want me to walk you through the demo we ran at the booth? Pick a time and I'll make it specific to your brand.
-
-Yours in tasty food,
-The Qu Crew</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -965,27 +448,6 @@ The Qu Crew</div>
             <div class="metric"><strong>12-15%</strong> open</div>
             <div class="metric"><strong>1-2%</strong> click</div>
             <div class="metric"><strong>~1</strong> click</div>
-          </div>
-          <div class="email-preview">
-            <button class="email-preview-toggle" onclick="toggleEmail('post3')">View Email Copy <span class="chevron">▶</span></button>
-            <div class="email-body" id="post3">
-              <div class="email-field"><strong>Subject:</strong> We Missed You at RLC</div>
-              <div class="email-content">
-Hi [First Name],
-
-We missed you at RLC! Did you see the gift card we sent you?
-
-<span class="serve-smarter-highlight">Serve Smarter</span> isn't going anywhere. We hope to catch up soon, but in the meantime, enjoy some of our top reads:
-
-• A Smarter Kitchen: We launched our press release on Energy and Equipment Intelligence at RLC
-• Report: Top 6 Trends for Fast Casual and QSR Brands in 2026
-• Article: How Edge Computing Will Define the Future of Restaurants
-
-We recorded the best 10 minutes of the demo. Want me to send it over? Or pick a time and I'll tailor a live walkthrough to your brand.
-
-Yours in tasty food,
-The Qu Crew</div>
-            </div>
           </div>
         </div>
         <div style="margin-top:8px;padding:8px 14px;background:#FFF5F7;border-radius:6px;font-size:12px;color:#B4002F;">
