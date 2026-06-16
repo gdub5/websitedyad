@@ -6,20 +6,26 @@
    CSS Custom Properties (Design Tokens)
    ---------------------------------------- */
 :root {
-  /* Colors */
-  --color-primary: #ef6307;
-  --color-primary-dark: #d45506;
-  --color-secondary: #289ad6;
-  --color-secondary-dark: #1e7bb0;
-  --color-black: #000000;
-  --color-dark-gray: #374151;
-  --color-gray: #6b7280;
-  --color-light-gray: #f9fafb;
-  --color-white: #ffffff;
-  --color-dark-navy: #1a1a2e;
-  --color-error: #ef4444;
-  --color-error-light: #fef2f2;
-  --color-success: #10b981;
+  /* Colors — 70s Retro palette (Dyad CX design system)
+     Source colors: Retro Teal #3F8A8C, Petrol Blue #0C5679, Royal Dark Blue #0B0835,
+     Cashew Apple #E5340B, Rich Orange #F28A0F, Destiny #FFE7BD. Rich Orange is the
+     single brand signal; Cashew Apple is the hot accent / hover / error; royal dark
+     blue is ink; the shell is warm — cream page, warm-white surfaces, sandy borders. */
+  --color-primary: #f28a0f;        /* Rich Orange — primary action, accent */
+  --color-primary-dark: #e5340b;   /* Cashew Apple — hover / pressed on orange */
+  --color-secondary: #0c5679;      /* Petrol Blue — secondary action, links */
+  --color-secondary-dark: #0b0835; /* Royal Dark Blue — secondary hover */
+  --color-black: #1a1320;          /* Warm near-black — strongest headings */
+  --color-dark-gray: #463b33;      /* Warm body text */
+  --color-gray: #8c8275;           /* Warm muted / metadata */
+  --color-light-gray: #f6edd8;     /* Sand panel — alternating sections, icon chips */
+  --color-white: #fffcf5;          /* Warm-white — cards, header, surfaces */
+  --color-cream: #fbf4e4;          /* Cream page background */
+  --color-border: #ecdcbe;         /* Sandy hairline border / divider */
+  --color-dark-navy: #0b0835;      /* Royal Dark Blue — footer, dark panels */
+  --color-error: #e5340b;          /* Cashew Apple — errors / destructive */
+  --color-error-light: #fdeae4;    /* Warm error fill */
+  --color-success: #3f8a8c;        /* Retro Teal — success */
 
   /* Typography */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -100,7 +106,7 @@ body {
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--color-dark-gray);
-  background-color: var(--color-white);
+  background-color: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -406,7 +412,7 @@ p:last-child {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(249, 250, 251, 0.5);
+  background-color: rgba(251, 244, 228, 0.55);
   z-index: 0;
 }
 
@@ -417,7 +423,7 @@ p:last-child {
 
 .hero-content {
   max-width: 1000px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 252, 245, 0.95);
   padding: var(--space-8);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
@@ -518,7 +524,7 @@ p:last-child {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-light-gray);
+  background-color: var(--color-white);
   border-radius: var(--radius-lg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 10px;
@@ -545,7 +551,7 @@ p:last-child {
   border-left: 4px solid var(--color-primary);
   font-size: var(--font-size-xl);
   font-weight: 600;
-  color: var(--color-dark);
+  color: var(--color-black);
   max-width: 720px;
 }
 
@@ -593,7 +599,7 @@ p:last-child {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-light-gray);
+  background-color: var(--color-white);
   border-radius: var(--radius-lg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 10px;
@@ -620,7 +626,7 @@ p:last-child {
   border-left: 4px solid var(--color-primary);
   font-size: var(--font-size-xl);
   font-weight: 600;
-  color: var(--color-dark);
+  color: var(--color-black);
   max-width: 720px;
 }
 
@@ -666,7 +672,7 @@ p:last-child {
   padding: var(--space-8);
   box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
 }
@@ -691,7 +697,7 @@ p:last-child {
   justify-content: center;
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-4);
-  background-color: var(--color-light-gray);
+  background-color: var(--color-white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 10px;
 }
@@ -702,16 +708,18 @@ p:last-child {
 }
 
 .service-icon-orange {
-  background-color: var(--color-light-gray);
+  background-color: var(--color-white);
 }
 
 .service-icon-blue {
-  background-color: var(--color-light-gray);
+  background-color: var(--color-white);
 }
 
 .service-card h3 {
   font-size: var(--font-size-xl);
   margin-bottom: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-light-gray);
 }
 
 .service-timeline {
@@ -1130,7 +1138,7 @@ p:last-child {
 .form-group select {
   width: 100%;
   padding: var(--space-3) var(--space-4);
-  border: 2px solid #d1d5db;
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   background-color: var(--color-white);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
@@ -1142,7 +1150,7 @@ p:last-child {
 .form-group select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(239, 99, 7, 0.1);
+  box-shadow: 0 0 0 3px rgba(242, 138, 15, 0.18);
 }
 
 .form-group input.error,
@@ -1195,7 +1203,7 @@ p:last-child {
 .contact-alt {
   margin-top: var(--space-8);
   padding-top: var(--space-8);
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
 }
 
 .contact-alt p {
