@@ -1,0 +1,23 @@
+# Dyad CX
+
+> Dyad CX helps organizations close the gap between AI investment and AI value. Most AI implementations fail because organizations aren't ready, not because the technology isn't capable. Dyad CX closes that gap with readiness assessments, implementation partnerships, and measurable results, aligning people, process, and tools. Founded by Greg Walker, with 18+ years leading AI implementation, support operations, and product management. Based in California.
+
+Dyad CX also builds and open-sources MCP (Model Context Protocol) connectors and Claude skills that wire AI assistants directly into the tools businesses already run on. The website is a hand-written static site (HTML/CSS/JS) hosted on GitHub Pages.
+
+## Main pages
+
+- [Home](https://dyad.cx/): Overview of Dyad CX, the AI readiness problem, and the core services (readiness assessments, implementation partnerships, measurable results).
+- [About Greg Walker](https://dyad.cx/about.html): Founder background, 18+ years across AI implementation, support operations, and product management, plus community involvement.
+- [Projects](https://dyad.cx/projects.html): Open-source MCP connectors (GoHighLevel, Obsidian, Xero) and Claude skills built by Dyad CX, each free on GitHub.
+- [Case Studies](https://dyad.cx/case-studies.html): Real engagements where readiness work turned technology investment into measurable value.
+- [Support Operations Buildout (Case Study)](https://dyad.cx/case-study-support-operations.html): How a growth-stage identity security company went from no support function to a documented, tooled, and trained operation in four weeks.
+
+## Contact
+
+- [Contact](https://dyad.cx/#contact): Reach out to discuss an AI readiness assessment or implementation partnership.
+
+## Optional
+
+- [Privacy Policy](https://dyad.cx/privacy.html): How Dyad CX collects, uses, and protects personal information.
+- [Terms of Service](https://dyad.cx/terms.html): Terms and conditions for using the Dyad CX website and services.
+- [Source code](https://github.com/gdub5/websitedyad): The full source for this website, built with Claude Code.

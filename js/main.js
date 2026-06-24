@@ -16,23 +16,29 @@
   const header = document.getElementById('header');
 
   if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function() {
-      const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', !isExpanded);
-      hamburger.classList.toggle('active');
-      navLinks.classList.toggle('active');
-
+    function setMenu(open) {
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      hamburger.classList.toggle('active', open);
+      navLinks.classList.toggle('active', open);
       // Prevent body scroll when menu is open
-      document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    function closeMenu(returnFocus) {
+      if (!navLinks.classList.contains('active')) return;
+      setMenu(false);
+      // Return focus to the toggle so keyboard users aren't stranded
+      if (returnFocus) hamburger.focus();
+    }
+
+    hamburger.addEventListener('click', function() {
+      setMenu(!navLinks.classList.contains('active'));
     });
 
     // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(function(link) {
       link.addEventListener('click', function() {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        closeMenu(false);
       });
     });
 
@@ -41,10 +47,14 @@
       if (navLinks.classList.contains('active') &&
           !navLinks.contains(e.target) &&
           !hamburger.contains(e.target)) {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        closeMenu(false);
+      }
+    });
+
+    // Close on Escape and send focus back to the toggle
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeMenu(true);
       }
     });
   }
